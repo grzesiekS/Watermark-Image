@@ -43,7 +43,8 @@ const addImageWatermarkToImage = async function(inputFile, outputFile, watermark
     }
 };
 
-prepareOutputFilename = fileNme => `${fileNme.split('.')[0]}-with-watermark.${fileNme.split('.')[1]}`;
+const prepareOutputFilename = fileNme => `${fileNme.split('.')[0]}-with-watermark.${fileNme.split('.')[1]}`;
+
 
 const startApp = async () => {
     //Ask if user is ready
