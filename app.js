@@ -97,11 +97,23 @@ const startApp = async () => {
                         console.log('Something went wrong... Try again');
                         return startApp();
                     }
-
                     await (await Jimp.read(`./img/${options.inputImage}`)).brightness(brighter.brighterParam).write(`./img/${prepareEditedFile(options.inputImage,'brighter')}`);
                     options.inputImage = `${prepareEditedFile(options.inputImage,'brighter')}`;
-                // case 'Increase contrast':
-                //     const contrast = await
+                    break;
+                case 'Increase contrast':
+                    const contrast = await inquirer.prompt([{
+                        name: 'contrastParam',
+                        type: 'number',
+                        message: 'Select number between -1 and 1',
+                    }]);
+
+                    if (contrast.contrastParam < -1 || contrast.contrastParam > 1) {
+                        console.log('Something went wrong... Try again');
+                        return startApp();
+                    }
+                    await (await Jimp.read(`./img/${options.inputImage}`)).contrast(contrast.contrastParam).write(`./img/${prepareEditedFile(options.inputImage,'contrast')}`);
+                    options.inputImage = `${prepareEditedFile(options.inputImage,'contrast')}`;
+                    break;
                 default:
                     break;
             }   
