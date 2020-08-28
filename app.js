@@ -70,6 +70,36 @@ const startApp = async () => {
     }
     ]);
 
+    const answerEdit = await inquirer.prompt([{
+        name: 'editStart',
+        message: 'Do You want to edit selected image?',
+        type: 'confirm',
+    }]);
+
+    if (answerEdit.editStart) {
+        const editImage = await inquirer.prompt([{
+            name: 'editMethod',
+            type: 'list',
+            choices: ['Make image brighter', 'Increase contrast', 'Make image b&w', 'Invert image'],
+        }]);
+        
+        if(fs.existsSync(`./img/${options.inputImage}`)) {
+            switch(editImage.editMethod) {
+                case 'Make image brighter':
+                    const brighter = await inquirer.prompt([{
+                        name: 'brighterParam',
+                        type: 'number',
+                        message: 'Select number between -1 and 1',
+                    }]);
+
+                    await (await Jimp.read(`./img/${options.inputImage}`)).brightness(brighter.brighterParam).write(`./img/bright-${options.inputImage}`);
+                    options.inputImage = `bright-${options.inputImage}`;
+                default:
+                    break;
+            }   
+        }
+    }
+
     if(options.watermarkType === 'Text watermark') {
         const text = await inquirer.prompt([{
             name: 'value',
