@@ -100,6 +100,7 @@ const startApp = async () => {
                     await (await Jimp.read(`./img/${options.inputImage}`)).brightness(brighter.brighterParam).write(`./img/${prepareEditedFile(options.inputImage,'brighter')}`);
                     options.inputImage = `${prepareEditedFile(options.inputImage,'brighter')}`;
                     break;
+                    
                 case 'Increase contrast':
                     const contrast = await inquirer.prompt([{
                         name: 'contrastParam',
@@ -114,6 +115,12 @@ const startApp = async () => {
                     await (await Jimp.read(`./img/${options.inputImage}`)).contrast(contrast.contrastParam).write(`./img/${prepareEditedFile(options.inputImage,'contrast')}`);
                     options.inputImage = `${prepareEditedFile(options.inputImage,'contrast')}`;
                     break;
+
+                case 'Make image b&w':
+                    await (await Jimp.read(`./img/${options.inputImage}`)).grayscale().write(`./img/${prepareEditedFile(options.inputImage,'black&white')}`);
+                    options.inputImage = `${prepareEditedFile(options.inputImage,'black&white')}`;
+                    break;
+
                 default:
                     break;
             }   
