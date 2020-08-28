@@ -92,8 +92,13 @@ const startApp = async () => {
                         message: 'Select number between -1 and 1',
                     }]);
 
-                    await (await Jimp.read(`./img/${options.inputImage}`)).brightness(brighter.brighterParam).write(`./img/bright-${options.inputImage}`);
-                    options.inputImage = `bright-${options.inputImage}`;
+                    try {
+                        await (await Jimp.read(`./img/${options.inputImage}`)).brightness(brighter.brighterParam).write(`./img/bright-${options.inputImage}`);
+                        options.inputImage = `bright-${options.inputImage}`;
+                    } catch {
+                        console.log('Something went wrong... Try again');
+                        return startApp();
+                    }
                 default:
                     break;
             }   
