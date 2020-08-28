@@ -45,7 +45,6 @@ const addImageWatermarkToImage = async function(inputFile, outputFile, watermark
 
 const prepareOutputFilename = fileNme => `${fileNme.split('.')[0]}-with-watermark.${fileNme.split('.')[1]}`;
 
-
 const startApp = async () => {
     //Ask if user is ready
     const answer = await inquirer.prompt([{
@@ -93,13 +92,8 @@ const startApp = async () => {
                         message: 'Select number between -1 and 1',
                     }]);
 
-                    try {
-                        await (await Jimp.read(`./img/${options.inputImage}`)).brightness(brighter.brighterParam).write(`./img/bright-${options.inputImage}`);
-                        options.inputImage = `bright-${options.inputImage}`;
-                    } catch {
-                        console.log('Something went wrong... Try again');
-                        return startApp();
-                    }
+                    await (await Jimp.read(`./img/${options.inputImage}`)).brightness(brighter.brighterParam).write(`./img/bright-${options.inputImage}`);
+                    options.inputImage = `bright-${options.inputImage}`;
                 default:
                     break;
             }   
