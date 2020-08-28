@@ -43,7 +43,8 @@ const addImageWatermarkToImage = async function(inputFile, outputFile, watermark
     }
 };
 
-const prepareOutputFilename = fileNme => `${fileNme.split('.')[0]}-with-watermark.${fileNme.split('.')[1]}`;
+const prepareOutputFilename = fileName => `${fileName.split('.')[0]}-with-watermark.${fileName.split('.')[1]}`;
+const prepareEditedFile = (fileName, editOption) => `${fileName.split('.')[0]}-${editOption}.${fileName.split('.')[1]}`;
 
 const startApp = async () => {
     //Ask if user is ready
@@ -92,8 +93,15 @@ const startApp = async () => {
                         message: 'Select number between -1 and 1',
                     }]);
 
-                    await (await Jimp.read(`./img/${options.inputImage}`)).brightness(brighter.brighterParam).write(`./img/bright-${options.inputImage}`);
-                    options.inputImage = `bright-${options.inputImage}`;
+                    if (brighter.brighterParam < -1 || brighter.brighterParam > 1) {
+                        console.log('Something went wrong... Try again');
+                        return startApp();
+                    }
+
+                    await (await Jimp.read(`./img/${options.inputImage}`)).brightness(brighter.brighterParam).write(`./img/${prepareEditedFile(options.inputImage,'brighter')}`);
+                    options.inputImage = `${prepareEditedFile(options.inputImage,'brighter')}`;
+                // case 'Increase contrast':
+                //     const contrast = await
                 default:
                     break;
             }   
